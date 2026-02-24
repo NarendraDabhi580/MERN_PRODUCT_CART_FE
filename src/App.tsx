@@ -10,8 +10,13 @@ import Cart from "./pages/Cart";
 
 const PrivateRoutes = ({ children }: any) => {
   const { token } = useAuth();
+  return token ? <>{children}</> : <Navigate to="/login" replace />;
+};
 
-  return token ? <>{children}</> : <Navigate to={"/login"} replace />;
+// Redirect logged-in users away from auth pages
+const PublicRoutes = ({ children }: any) => {
+  const { token } = useAuth();
+  return token ? <Navigate to="/" replace /> : <>{children}</>;
 };
 
 function App() {
@@ -19,8 +24,22 @@ function App() {
     <BrowserRouter>
       <ToastProvider />
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoutes>
+              <Login />
+            </PublicRoutes>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoutes>
+              <Register />
+            </PublicRoutes>
+          }
+        />
         <Route
           path="/"
           element={
