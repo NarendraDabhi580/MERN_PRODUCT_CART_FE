@@ -1,73 +1,109 @@
-# React + TypeScript + Vite
+# 🛒 MERN E-Commerce — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React frontend for the MERN E-Commerce project.  
+Built with **React**, **TypeScript**, **Vite**, and **Axios**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📦 Tech Stack
 
-## React Compiler
+- React 19 + TypeScript
+- Vite
+- React Router DOM v7
+- Axios
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1. Clone the repository
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/NarendraDabhi580/MERN_PRODUCT_CART_FE.git
+cd MERN_PRODUCT_CART_FE
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm install
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 3. Environment variables
+
+A `.env` file is already included in the repo:
+
+```
+VITE_API_URL=http://localhost:3200/api
+```
+
+> Make sure your **backend server is running on port 3200** before starting the frontend.  
+> If your backend runs on a different URL, update `VITE_API_URL` in the `.env` file.
+
+---
+
+### 4. Start the development server
+
+```bash
+npm run dev
+```
+
+The app will open at: **http://localhost:5173**
+
+---
+
+## 🖥️ Features
+
+- **Register / Login** — JWT-based authentication
+- **Products Page** — View, search, and filter products by category
+- **Add / Edit / Delete Products** — Full CRUD via modal
+- **Cart** — Add items, update quantity, remove items
+- **Checkout** — Order summary page
+- **Protected Routes** — Auto-redirects to login if not authenticated
+
+---
+
+## 📁 Folder Structure
+
+```
+frontend/
+├── src/
+│   ├── api/
+│   │   └── api.ts            # Axios instance with auth interceptor
+│   ├── components/
+│   │   ├── Navbar.tsx
+│   │   └── ToastProvider.tsx
+│   ├── context/
+│   │   └── AuthContext.tsx   # Global auth state (JWT token)
+│   ├── pages/
+│   │   ├── Login.tsx
+│   │   ├── Register.tsx
+│   │   ├── Products.tsx
+│   │   ├── Cart.tsx
+│   │   └── Checkout.tsx
+│   ├── App.tsx               # Routes + private route guard
+│   └── main.tsx              # Entry point
+├── .env
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+└── README.md
+```
+
+---
+
+## ⚠️ Make Sure Backend is Running First
+
+Before starting the frontend, make sure you have the backend running:
+
+```bash
+# In the backend folder
+npm run dev     # starts on http://localhost:3200
+```
+
+Then start the frontend:
+
+```bash
+# In the frontend folder
+npm run dev     # opens on http://localhost:5173
 ```
