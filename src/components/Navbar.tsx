@@ -26,7 +26,7 @@ const Navbar = () => {
           </Link>
           <Link
             to={"/cart"}
-            className={location.pathname === "cart" ? "active" : ""}
+            className={location.pathname === "/cart" ? "active" : ""}
           >
             Cart
           </Link>

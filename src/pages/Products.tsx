@@ -45,6 +45,7 @@ export default function Products() {
 
   // Delete confirm
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   // Add to cart loading
   const [addingId, setAddingId] = useState<string | null>(null);
@@ -129,6 +130,7 @@ export default function Products() {
 
   const deleteProduct = async () => {
     if (!deleteId) return;
+    setDeleting(true);
     try {
       await api.delete(`/product/${deleteId}`);
       showToast("Product deleted", "success");
@@ -136,6 +138,8 @@ export default function Products() {
       load();
     } catch {
       showToast("Failed to delete product", "error");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -403,11 +407,16 @@ export default function Products() {
               <button
                 className="btn btn-secondary btn-sm"
                 onClick={() => setDeleteId(null)}
+                disabled={deleting}
               >
                 Cancel
               </button>
-              <button className="btn btn-danger btn-sm" onClick={deleteProduct}>
-                Delete
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={deleteProduct}
+                disabled={deleting}
+              >
+                {deleting ? "Deleting…" : "Delete"}
               </button>
             </div>
           </div>

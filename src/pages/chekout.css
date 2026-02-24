@@ -1,0 +1,32 @@
+.checkout-card {
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 48px 40px;
+  text-align: center;
+}
+
+.checkout-icon {
+  font-size: 52px;
+  margin-bottom: 20px;
+}
+
+.checkout-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.checkout-sub {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.checkout-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}

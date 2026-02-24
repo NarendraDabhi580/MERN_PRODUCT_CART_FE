@@ -20,6 +20,8 @@ export default function Cart() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [removingId, setRemovingId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,12 +48,9 @@ export default function Cart() {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(items, "items===========>>");
-  }, [items]);
-
   const updateQty = async (id: string, qty: number) => {
-    if (qty < 1) return;
+    if (qty < 1 || updatingId === id) return;
+    setUpdatingId(id);
     try {
       await api.put(`/cart/update/${id}`, { quantity: qty });
       setItems((prev) =>
@@ -61,16 +60,22 @@ export default function Cart() {
       );
     } catch {
       showToast("Failed to update quantity", "error");
+    } finally {
+      setUpdatingId(null);
     }
   };
 
   const remove = async (id: string) => {
+    if (removingId === id) return;
+    setRemovingId(id);
     try {
       await api.delete(`/cart/remove/${id}`);
       setItems((prev) => prev.filter((i: any) => i.product._id !== id));
       showToast("Item removed from cart", "info");
     } catch {
       showToast("Failed to remove item", "error");
+    } finally {
+      setRemovingId(null);
     }
   };
 
@@ -145,15 +150,27 @@ export default function Cart() {
                           onClick={() =>
                             updateQty(item.product._id, item.quantity - 1)
                           }
-                          disabled={item.quantity <= 1}
+                          disabled={
+                            item.quantity <= 1 ||
+                            updatingId === item.product._id ||
+                            removingId === item.product._id
+                          }
                         >
                           −
                         </button>
-                        <span className="qty-val">{item.quantity}</span>
+                        <span className="qty-val">
+                          {updatingId === item.product._id
+                            ? "…"
+                            : item.quantity}
+                        </span>
                         <button
                           className="qty-btn"
                           onClick={() =>
                             updateQty(item.product._id, item.quantity + 1)
+                          }
+                          disabled={
+                            updatingId === item.product._id ||
+                            removingId === item.product._id
                           }
                         >
                           +
@@ -165,8 +182,14 @@ export default function Cart() {
                       <button
                         className="btn btn-danger btn-sm"
                         onClick={() => remove(item.product._id)}
+                        disabled={
+                          removingId === item.product._id ||
+                          updatingId === item.product._id
+                        }
                       >
-                        Remove
+                        {removingId === item.product._id
+                          ? "Removing…"
+                          : "Remove"}
                       </button>
                     </div>
                   </div>
@@ -194,6 +217,7 @@ export default function Cart() {
                   className="btn btn-primary btn-full"
                   style={{ marginTop: 16 }}
                   onClick={() => navigate("/checkout")}
+                  disabled={loading || !!updatingId || !!removingId}
                 >
                   Proceed to Checkout
                 </button>
